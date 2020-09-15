@@ -1,0 +1,19 @@
+[ req ]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+prompt = no
+
+[ req_distinguished_name ]
+countryName = UK
+stateOrProvinceName = United Kingdom
+localityName = London
+organizationName = Sitruc
+commonName = Sitruc Tech Services
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = HOSTNAME
+IP.1 = IP_ADDR
