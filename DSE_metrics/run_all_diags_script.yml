@@ -1,0 +1,28 @@
+---
+- hosts: cluster1
+  remote_user: ubuntu
+  vars:
+     script_dir: /home/ubuntu/DSE_metrics
+     script_file: run_all_diags.sh
+     core_names_file: list_of_solr_cores
+  tasks:
+    - name: make dir on each node
+      file:
+         path: '{{script_dir}}'
+         state: directory
+         mode: '0755'
+    - name: copy scripts to each node
+      copy:
+         src: './{{item}}'
+         dest: '{{script_dir}}/{{item}}'
+         remote_src: no
+         force: yes
+         mode: preserve
+      with_items:
+         - run_all_diags.sh
+         - query_metrics.sh
+         - jfr.sh
+         - tpc_backpressure_metrics.sh
+         - list_of_solr_cores
+    - name: run all diags
+      command: '{{script_dir}}/{{script_file}} {{script_dir}} {{core_names_file}}'

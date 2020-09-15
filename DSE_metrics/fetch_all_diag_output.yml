@@ -1,0 +1,18 @@
+---
+- hosts: cluster1
+  remote_user: ubuntu
+  vars:
+     script_dir: /tmp
+     pattern: '.*-metrics.out|.*-iostat.out|.*.jfr'
+  tasks:
+    - name: find iostat files and fetch them
+      find: 
+         paths: "{{ script_dir }}" 
+         recurse: no 
+         patterns: "{{ pattern }}"
+         use_regex: true
+      register: files_to_copy
+    - fetch: 
+         src: "{{ item.path }}"
+         dest: "./"
+      with_items: "{{ files_to_copy.files }}"

@@ -1,0 +1,12 @@
+---
+- hosts: cluster1
+  remote_user: ubuntu
+  vars:
+     log_class: com.datastax.bdp.search.solr.handler.update.CassandraDirectUpdateHandler
+     query_class: org.apache.solr.handler.component.QueryComponent
+     log_level: DEBUG
+  tasks:
+     - name: set QueryMetrics debug on
+       command: 'nodetool setlogginglevel {{ query_class }} {{ log_level }}'
+     - name: set UpdateHandler debug on
+       command: 'nodetool setlogginglevel {{ log_class }} {{ log_level }}'
