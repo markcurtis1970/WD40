@@ -1,0 +1,28 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: logdna-pod-view
+spec:
+  schedule: "*/15 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: analyse
+            image: quay.io/markcurtis1970/logdna_pod_view:latest
+            imagePullPolicy: Always
+            command:
+            - /check_pods_update_view.py
+            env:
+            - name: NAMESPACE
+              value: "ibm-observe"
+            - name: VIEW_NAME
+              value: "logdna-support-view"
+            - name: CATEGORY_NAME
+              value: "logdna-support"
+            - name: ENDPOINT_URL
+              value: "https://api.logdna.com/v1/config/"
+            - name: SERVICE_KEY
+              value: "<INSERT YOUR SERVICE KEY HERE>"
