@@ -17,7 +17,7 @@ spec:
             - /check_pods_update_view.py
             env:
             - name: NAMESPACE
-              value: "ibm-observe"
+              value: "my-namespace"
             - name: VIEW_NAME
               value: "logdna-support-view"
             - name: CATEGORY_NAME
